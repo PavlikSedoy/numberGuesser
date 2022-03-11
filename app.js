@@ -22,15 +22,42 @@ guessBtn.addEventListener('click', () => {
     const guess = parseInt(guessField.value)
 
     // Validation
-    if (isNaN(guess) || guess < min || guess > max) showMessage(`Please set number between ${min} and ${max}`, 'red')
+    if (isNaN(guess) || guess < min || guess > max) {
+        showMessage(`Please set number between ${min} and ${max}`, 'red')
+        return false
+    }
 
     // Check if won
-    if (guess === winningNum) {
-        guessField.disabled = true
-        guessField.style.borderColor = 'green'
-        showMessage(`${guess} is correct. YOU WIN!`, 'green')
+    if (guess === winningNum) gameOver(true, `${guess} is correct. YOU WIN!`)
+    else {
+        guessesLeft -= 1
+        
+        gameOver(false, `${guess} is not correct. ${guessesLeft} guesses left`)
+
+        // Clear guess input
+        guessField.value = ''
+
+        // Check if all guesses left
+        if (guessesLeft === 0) {
+            gameOver(false, 'Game over')
+        }
     }
+
 })
+
+/**
+ * Game over or won funtion
+ * @param {Boolean} won Won or no
+ * @param {String} msg Message to show
+ */
+const gameOver = (won, msg) => {
+    // Set color (red|green)
+    const color = won ? 'green' : 'red'
+
+    guessField.disabled = won
+    guessField.style.borderColor = color
+    showMessage(msg, color)
+}
 
 /**
  * Show message
