@@ -31,8 +31,8 @@ guessBtn.addEventListener('click', () => {
     if (guess === winningNum) gameOver(true, `${guess} is correct. YOU WIN!`)
     else {
         guessesLeft -= 1
-        
-        gameOver(false, `${guess} is not correct. ${guessesLeft} guesses left`)
+
+        showMessage(`${guess} is not correct. ${guessesLeft} guesses left`, 'red')
 
         // Clear guess input
         guessField.value = ''
@@ -45,6 +45,11 @@ guessBtn.addEventListener('click', () => {
 
 })
 
+// Handle click on "Play again" button
+game.addEventListener('mousedown', e => {
+    if (e.target.className === 'play-again') window.location.reload()
+})
+
 /**
  * Game over or won funtion
  * @param {Boolean} won Won or no
@@ -54,9 +59,13 @@ const gameOver = (won, msg) => {
     // Set color (red|green)
     const color = won ? 'green' : 'red'
 
-    guessField.disabled = won
+    guessField.disabled = !won
     guessField.style.borderColor = color
     showMessage(msg, color)
+
+    // Change "Submit" button to "Play again" button
+    guessBtn.value = 'Play again'
+    guessBtn.className = 'play-again'
 }
 
 /**
@@ -68,3 +77,4 @@ const showMessage = (msg, color) => {
     message.style.color = color
     message.textContent = msg
 }
+
