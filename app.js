@@ -1,7 +1,17 @@
+
+/**
+ * Generate random number for guess
+ * @param {Number} min Minimal number value
+ * @param {Number} max Maximal number value
+ */
+ const generateRandomNum = (min, max) => {
+    return Math.floor(Math.random()*(max - min + 1) + min)
+}
+
 // Property variables
 let min = 1,
     max = 10,
-    winningNum = 3,
+    winningNum = generateRandomNum(min, max),
     guessesLeft = 3
 
 // UI variables
@@ -77,4 +87,3 @@ const showMessage = (msg, color) => {
     message.style.color = color
     message.textContent = msg
 }
-
